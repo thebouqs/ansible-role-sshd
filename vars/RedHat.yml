@@ -1,0 +1,33 @@
+---
+_sshd_package_name: 'openssh-server'
+_sshd_package_version: 'latest'
+_sshd_service_name: 'sshd.service'
+
+_sshd_config_file_mode: 'u=rw,go-rwx'
+_sshd_syslog_facility: 'AUTHPRIV'
+_sshd_password_authentication: true
+_sshd_challenge_response_authentication: false
+_sshd_gssapi_authentication: true
+_sshd_gssapi_cleanup_credentials: false
+_sshd_use_pam: true
+_sshd_x11_forwarding: true
+_sshd_accept_env:
+  - 'LANG'
+  - 'LC_CTYPE'
+  - 'LC_NUMERIC'
+  - 'LC_TIME'
+  - 'LC_COLLATE'
+  - 'LC_MONETARY'
+  - 'LC_MESSAGES'
+  - 'LC_PAPER'
+  - 'LC_NAME'
+  - 'LC_ADDRESS'
+  - 'LC_TELEPHONE'
+  - 'LC_MEASUREMENT'
+  - 'LC_IDENTIFICATION'
+  - 'LC_ALL'
+  - 'LANGUAGE'
+  - 'XMODIFIERS'
+
+_sshd_subsystem:
+  sftp: '/usr/libexec/openssh/sftp-server'

@@ -1,0 +1,7 @@
+---
+# handlers file for sshd
+#
+- name: "Restart {{ sshd_service_name }}"
+  set_fact:
+    sshd_service_ensure: "restarted"
+  listen: "sshd restart"

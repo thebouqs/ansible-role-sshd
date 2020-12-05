@@ -1,0 +1,8 @@
+---
+
+- name: "Ensure: {{ sshd_service_name }} is enabled: {{ sshd_service_enable }} and state: {{ sshd_service_ensure }}"
+  service:
+    name: "{{ sshd_service_name }}"
+    enabled: "{{ sshd_service_enable }}"
+    state: "{{ sshd_service_ensure }}"
+  become: true
