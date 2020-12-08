@@ -17,9 +17,9 @@ sshd_config_file_mode: ''
 
 sshd_ports:
   - 22
-sshd_proto: ''
+sshd_proto: '2'
 sshd_address_family: ''
-sshd_listen_address: ''
+sshd_listen_address: []
 sshd_host_key: []
 sshd_key_regeneration_interval: ''
 sshd_server_key_bits: ''

@@ -1,23 +1,497 @@
-Role Name
+sshd
 =========
 
-A brief description of the role goes here.
+This Ansbile Role will install, configure, and manage sshd (OpenSSH). 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+This role has no external dependancies.
+
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+**NOTE: All defaults shown before are for the role. The SSH Server has defaults that are used for any setting not set explicitly by the user**
+
+### sshd_service_name
+This is the name of the serivce to manage (ie sshd.service), it distribution specifc though **most** use sshd.service now.
+
+**default**: '' Set to distribution specific value by default
+
+**type**: string
+
+**example**:
+```yaml
+sshd_service_name: 'sshd.service'
+```
+
+### sshd_service_enable
+This controls enabling the service to start during boot.
+
+**default**: true
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_service_enable: false
+```
+
+### sshd_service_ensure
+This controls the running state of the service, valid values are `started`, `stopped`, `restarted`, and `reloaded`.
+
+**default**: 'started'
+
+**type**: string
+
+**example**:
+```yaml
+sshd_service_ensure: 'started'
+```
+
+### sshd_package_version
+Controls the version of the package to install. Allows for ensuring the latest available package, from configured distribution software repositories, is installed.
+
+**default**: `'latest'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_package_version: '8.*' # pin the version to 8 but any minor and patch
+```
+
+### sshd_package_name
+The name of the OpenSSH server package to install.
+
+**default**: `''` This defaults to the distribution specific name
+
+**type**: string
+
+**example**:
+```yaml
+sshd_package_name: 'openssh-server'
+```
+
+
+### sshd_config_file_path
+The absolute path to the SSH Server configuration file.
+
+**default**: `'/etc/ssh/sshd_config'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_config_file_path: '/etc/ssh/sshd_config'
+```
+
+### sshd_config_file_owner
+Username of the owner to set the SSH Server configuration file to.
+
+**default**: `'root'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_cnofig_file_owner: 'root'
+```
+
+
+### sshd_config_file_group
+Group name to the set the SSH Server configuration file to.
+
+**default**: `'root'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_config_file_group: 'root'
+```
+
+### sshd_config_file_mode
+The file permissions to set the SSH Server configuration file to.
+
+**default**: `''` Set to a distribution specific value
+
+**type**: string
+
+**example**:
+```yaml
+sshd_config_file_mode: 'ug=rw,o-rwx' # in octel 660
+```
+
+### sshd_ports
+The ports that OpenSSH should listin on.
+
+**default**: `['22']`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_ports:
+  - 22
+  - 2022
+```
+
+### sshd_proto
+The SSH server protocol ie 1 and/or 2. 
+
+***You should really only ever use 2***.
+
+**default**: `'2'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_proto: '2'
+```
+
+### sshd_address_family
+Then IP Address family to enable IPv4 (inet), IPv6 (inet6), or Both (any).
+
+**default**: `''` Note OpenSSH defaults to both if no value is set in the configuration!
+
+**type**: string
+
+**example**:
+```yaml
+sshd_address_family: 'inet' # enable IPv4 only
+```
+
+### sshd_listen_address
+The address(s) to enable SSH to listen on.
+
+**default**: `[]` Note OpenSSH defaults to 0.0.0.0 and :: for IPv4 and IPv6 respectively which is **all** interfaces when no value is configured
+
+**type**: list
+
+**example**:
+```yaml
+sshd_listen_address: ['127.0.0.1', '192.168.1.22']
+```
+
+### sshd_host_key
+The absolute path to the SSH Host Key(s).
+
+**default**: `[]` The role will set distribution specific values
+
+**type**: list of strings
+
+**example**:
+```yaml
+sshd_host_keys:
+  - '/etc/ssh_sshd_host/ecdsa_key'
+  - '/etc/ssh_ssh_host_ed25519_key'
+```
+
+### sshd_key_regeneration_interval
+Used to control rekey intervals for SSH-1.
+
+***When set on SSH-2 it has no effect and results in deprecation warnings in the logs***
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_key_regeneration_interval: '3600'
+```
+
+### sshd_server_key_bits
+Used to set the bit size to use during rekey in SSH-1
+
+***Whe set on SSH-2 it has no effect and results in deprecation warnings in the logs***
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_server_key_bits: '1024'
+```
+
+### sshd_syslog_facility
+Sets the [SYSLOG Facitity Keyword](https://en.wikipedia.org/wiki/Syslog#Facility)
+
+**default**: `''` This role will set a distribution specific variable if one is not provided
+
+**type**: string
+
+**example**:
+```yaml
+sshd_syslog_facility: 'AUTHPRIV'
+```
+
+### sshd_log_level
+Sets the log level for the service. It must be a keyword from the [SYSLOG Severity Level List](https://en.wikipedia.org/wiki/Syslog#Severity_level).
+
+**default**: `'INFO'`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_log_level: 'VERBOSE'
+```
+
+### sshd_login_grace_time
+How long to wait for a login attempt before closing the session.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_login_grace_time: '120s'
+```
+
+### sshd_permit_root_login
+Whether or not to permit root logins, and if allowed with password, with key only, or forced-commands.
+If set it must be one of the following:
+  * yes (true)
+  * prohibit-password (same as deprecated without-password)
+  * forced-commands-only
+  * no (false)
+
+**default**: `''` A distribution specific value might be set if a value is not provided
+
+**type**: string
+
+**example**:
+```yaml
+sshd_permit_root_login: 'prohibit-password'
+```
+
+### sshd_strict_modes
+Specifies whether sshd(8) should check file modes and ownership of the user's files and home directory before accepting login.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_strict_modes: true
+```
+
+### sshd_max_auth_tries
+Specifies the maximum number of authentication attempts permitted per connection.
+
+**default**: `''`
+
+**type**: integer
+
+**example**:
+```yaml
+sshd_max_auth_tries: 6
+```
+
+### sshd_rsa_authentication
+Whether to allow RSA Based Authentication.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_rsa_authentication: false
+```
+
+### sshd_pubkey_accepted_key_types
+Specifies the key types that will be accepted for public key authentication.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_pubkey_accepted_key_types:
+  - 'ecdsa-sha2-nistp256-cert-v01@openssh.com'
+  - 'ssh-ed25519-cert-v01@openssh.com'
+  - 'sk-ecdsa-sha2-nistp256-cert-v01@openssh.com'
+```
+
+### sshd_pubkey_authentication
+Whether public key authentication is allowed.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_pubkey_authentication: true
+```
+### sshd_authorized_keys_file
+The file that contains the public keys used for user authentication.
+
+**default**: `''` The role will likely set a distribution specific default
+
+**type**: string
+
+**example**:
+```yaml
+sshd_authorized_keys_file: "%h/.ssh/authorized_keys"
+```
+
+### sshd_authorized_keys_command
+A program to be used to look up the user's public keys.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_authorized_keys_command: '/usr/bin/sss_ssh_authorizedkeys'
+```
+
+### sshd_authorized_keys_command_user
+The user under whose account the AuthorizedKeysCommand is run.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_authorized_keys_command_user: sssd
+```
+
+### sshd_host_based_authentication
+Whether rhosts or /etc/hosts.equiv authentication together with successful public key client host authentication is allowed.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_host_based_authentication: false
+```
+
+### sshd_ignore_user_known_hosts
+whether sshd(8) should ignore the user's ~/.ssh/known_hosts during HostbasedAuthentication and use only the system-wide known hosts
+file /etc/ssh/known_host.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_ignore_user_known_hosts: true
+```
+
+### sshd_ignore_rhosts
+Specifies that .rhosts and .shosts files will not be used in HostbasedAuthentication.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_ignore_rhosts: true
+```
+
+### sshd_rhosts_rsa_authentication
+Whether to use RSA based Rhost Authentication. This option is deprecated in OpenSSH.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_rhosts_rsa_authentication: false
+```
+
+### sshd_authentication_methods
+The authentication methods that must be successfully completed for a user to be granted access.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_authentication_methods:
+  - 'gssapi-with-mic'
+  - 'publickey'
+```
+
+### sshd_password_authentication
+Specifies whether password authentication is allowed.
+
+**default**: `''` the role might set distribution specific default
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_password_authentication: true
+```
+
+### sshd_pam_authentication: ''
+
+### sshd_challenge_response_authentication: ''
+### sshd_permit_empty_passwords: ''
+### sshd_kerberos_authentication: ''
+### sshd_kerberos_or_local_passwd: ''
+### sshd_kerberos_ticket_cleanup: ''
+### sshd_kerberos_get_afs_token: ''
+### sshd_gssapi_authentication: ''
+### sshd_gssapi_cleanup_credentials: ''
+### sshd_use_pam: ''
+### sshd_accept_env: []
+### sshd_allow_tcp_forwarding: ''
+### sshd_x11_forwarding: ''
+### sshd_x11_use_localhost: ''
+### sshd_x11_display_offset: ''
+### sshd_print_motd: ''
+### sshd_print_last_log: ''
+### sshd_tcp_keep_alive: ''
+### sshd_use_privilege_separation: ''
+### sshd_permit_user_environment: ''
+### sshd_compression: ''
+### sshd_client_alive_interval: ''
+### sshd_client_alive_count_max: ''
+### sshd_use_dns: ''
+### sshd_max_startups: ''
+### sshd_max_sessions: ''
+### sshd_permit_tunnel: ''
+### sshd_chroot_directory: ''
+### sshd_force_command: ''
+### sshd_allow_agent_forwarding: ''
+### sshd_banner: ''
+### sshd_xauth_location: ''
+### sshd_ciphers: []
+### sshd_kex_algorithms: []
+### sshd_macs: []
+### sshd_deny_users: []
+### sshd_deny_groups: []
+### sshd_allow_users: []
+### sshd_allow_groups: []
+### sshd_revoked_keys: ''
+### sshd_host_certificate: []
+### sshd_trusted_user_ca_keys: []
+### sshd_authorized_principals_file: ''
+### sshd_subsystem: {}
+### sshd_match: {}
+
+
 
 Dependencies
 ------------
