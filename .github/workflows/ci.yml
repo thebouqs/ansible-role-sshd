@@ -21,7 +21,7 @@ jobs:
           - scenario: debian_buster
           - scenario: ubuntu_bionic
           - scenario: amazon_linux_2
-    step:
+    steps:
       - name: "Clone Repo"
         uses: actions/checkout@v2
         with:
