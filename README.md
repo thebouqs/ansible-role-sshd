@@ -1008,7 +1008,7 @@ sshd_subsystem:
   sftp: '/usr/lib/openssh/sftp-server'
 ```
 
-### sshd_match: {}
+### sshd_match
 Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those
 set in the global section of the config file, until either another Match line or the end of the file.  If a keyword appears in multiple Match
 blocks that are satisfied, only the first instance of the keyword is applied.
