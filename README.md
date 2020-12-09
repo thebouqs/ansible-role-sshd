@@ -1,7 +1,7 @@
 sshd
 =========
 
-This Ansbile Role will install, configure, and manage sshd (OpenSSH). 
+This Ansbile Role will install, configure, and manage sshd (OpenSSH).
 
 Requirements
 ------------
@@ -12,7 +12,7 @@ This role has no external dependancies.
 Role Variables
 --------------
 
-**NOTE: All defaults shown before are for the role. The SSH Server has defaults that are used for any setting not set explicitly by the user**
+**NOTE: All defaults shown before are for the role. The SSH Server has defaults that are used for any setting not set explicitly by the user*.*
 
 ### sshd_service_name
 This is the name of the serivce to manage (ie sshd.service), it distribution specifc though **most** use sshd.service now.
@@ -139,7 +139,7 @@ sshd_ports:
 ```
 
 ### sshd_proto
-The SSH server protocol ie 1 and/or 2. 
+The SSH server protocol ie 1 and/or 2.
 
 ***You should really only ever use 2***.
 
@@ -444,36 +444,351 @@ Specifies whether password authentication is allowed.
 sshd_password_authentication: true
 ```
 
-### sshd_pam_authentication: ''
+### sshd_challenge_response_authentication
+Whether challenge-response authentication is allowed.
 
-### sshd_challenge_response_authentication: ''
-### sshd_permit_empty_passwords: ''
-### sshd_kerberos_authentication: ''
-### sshd_kerberos_or_local_passwd: ''
-### sshd_kerberos_ticket_cleanup: ''
-### sshd_kerberos_get_afs_token: ''
-### sshd_gssapi_authentication: ''
-### sshd_gssapi_cleanup_credentials: ''
-### sshd_use_pam: ''
-### sshd_accept_env: []
-### sshd_allow_tcp_forwarding: ''
-### sshd_x11_forwarding: ''
-### sshd_x11_use_localhost: ''
-### sshd_x11_display_offset: ''
-### sshd_print_motd: ''
-### sshd_print_last_log: ''
-### sshd_tcp_keep_alive: ''
-### sshd_use_privilege_separation: ''
-### sshd_permit_user_environment: ''
-### sshd_compression: ''
-### sshd_client_alive_interval: ''
-### sshd_client_alive_count_max: ''
-### sshd_use_dns: ''
-### sshd_max_startups: ''
-### sshd_max_sessions: ''
-### sshd_permit_tunnel: ''
-### sshd_chroot_directory: ''
+**default**: `''` The role will likely set a distribution specific value
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_challenge_response_authentication: true
+```
+
+### sshd_permit_empty_passwords
+When password authentication is allowed, it specifies whether the server allows login to accounts with empty password strings.
+
+**default**: `''` The role will likely set a distribution specific value
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_permit_empty_passwords: false
+```
+
+### sshd_kerberos_authentication
+Specifies whether the password provided by the user for PasswordAuthentication will be validated through the Kerberos KDC
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_kerberos_authentication: true
+```
+
+### sshd_kerberos_or_local_passwd
+If password authentication through Kerberos fails then the password will be validated via any additional
+local mechanism such as /etc/passwd.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_kerberos_or_local_passwd: false
+```
+
+### sshd_kerberos_ticket_cleanup
+Specifies whether to automatically destroy the user's ticket cache file on logout
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_kerberos_ticket_cleanup: true
+```
+### sshd_kerberos_get_afs_token
+If AFS is active and the user has a Kerberos 5 TGT, attempt to acquire an AFS token before accessing the user's home directory.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_kerberos_get_afs_token: false
+```
+
+### sshd_gssapi_authentication
+Specifies whether user authentication based on GSSAPI is allowed.
+
+**default**: `''` The role will likely set a distribution specific setting
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_gssapi_authentication: false
+```
+
+### sshd_gssapi_cleanup_credentials
+Specifies whether to automatically destroy the user's credentials cache on logout.
+
+**default**: `''` Likely a distribution specific value will be set by role
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_gssapi_cleanup_credentials: true
+```
+
+### sshd_use_pam
+Enables the Pluggable Authentication Module interface.
+
+**default**: `''` The role will set a distribution specific value
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_use_pam: true
+```
+
+### sshd_accept_env
+Specifies what environment variables sent by the client will be copied into the session's environment.
+
+**default**: `[]` The role will likely set a distribution specific value
+
+**type**: list
+
+**example**:
+```yaml
+sshd_accept_env:
+  - 'LANG'
+  - 'LC_*'
+```
+
+### sshd_allow_tcp_forwarding
+Specifies whether TCP forwarding is permitted. Valid options are, yes (true), no (false), all, local, or remote.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_allow_tcp_forwarding: true
+```
+
+### sshd_x11_forwarding
+Specifies whether X11 forwarding is permitted.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_x11_forwarding: true
+```
+
+### sshd_x11_use_localhost
+Specifies whether the SSH Server should bind the X11 forwarding server to the loopback address or to the wildcard address.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_x11_use_localhost: true
+```
+
+### sshd_x11_display_offset
+Specifies the first display number available for the SSH Server's X11 forwarding.
+
+**default**: `''`
+
+**type**: integer
+
+**example**:
+```yaml
+sshd_x11_display_offset: 20
+```
+
+### sshd_print_motd
+Specifies whether the SSH Server should print /etc/motd when a user logs in interactively.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_print_motd: false
+```
+
+### sshd_print_last_log
+Specifies whether the SSH Server should print the date and time of the last user login when a user logs in interactively.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_print_last_log: true
+```
+
+### sshd_tcp_keep_alive
+Specifies whether the system should send TCP keepalive messages to the other side.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_tcp_keep_alive: true
+```
+
+### sshd_use_privilege_separation
+Specifies whether the SSH Server separates privileges by creating an unprivileged child process to deal with incoming network traffic. Valid options are 
+yes (true), no (false), sandbox.
+
+***Note this option is deprecated in newer releases of OpenSSH and defaults to enabled***
+
+**default**: `''` the role will possibly set a distribution specific default (CentOS 7)
+
+**type**: string
+
+**example**:
+```yaml
+sshd_use_privilege_separation: sandbox
+```
+
+### sshd_permit_user_environment
+Specifies whether ~/.ssh/environment and environment= options in ~/.ssh/authorized_keys are processed by the SSH Server. Valid options are
+yes (true), no (false) or comma sperated list (LANG,LC\_\*).
+
+**default**: `''`
+
+**type**: boolean or string
+
+**example**:
+```yaml
+sshd_permit_user_environment: true
+```
+
+### sshd_compression
+Specifies whether compression is enabled after the user has authenticated successfully.
+Valid options are yes (true), delayed (a legacy alias of yes), and no (false).
+
+**default**: `''` The role is likely to set a distribution specific default
+
+**type**: boolean or string
+
+**example**:
+```yaml
+sshd_compression: true
+```
+
+### sshd_client_alive_interval
+Sets a timeout interval in seconds after which if no data has been received from the client, the SSH Server will send a message through the encrypted
+channel to request a response from the client.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_client_alive_interval: '120m'
+```
+
+### sshd_client_alive_count_max
+Sets the number of client alive messages which may be sent without the SSH Server receiving any messages back from the client.
+
+**default**: `''`
+
+**type**: integer
+
+**example**:
+```yaml
+sshd_client_alive_count_max: 3
+```
+
+### sshd_use_dns
+Specifies whether the SSH Server should look up the remote host name, and to check that the resolved host name for the remote IP address maps back to
+the very same IP address.
+
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_use_dns: true
+```
+
+### sshd_max_startups
+Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_max_startups: '10:30:60' # after ten unauthenticated connections drop 30% increasing linearly till 60 connections then drop 100%
+```
+
+### sshd_max_sessions
+Specifies the maximum number of open shell, login or subsystem (e.g. sftp) sessions permitted per network connection.
+
+**default**: `''`
+
+**type**: integer
+
+**example**:
+```yaml
+sshd_max_sessions: 10
+```
+
+### sshd_permit_tunnel
+Specifies whether tun device forwarding is allowed.  The argument must be yes (true), point-to-point (layer 3), ethernet (layer 2), or no (false).
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_permit_tunnel: true
+```
+
+### sshd_chroot_directory
+Specifies the pathname of a directory to chroot (change root) to after authentication.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_chroot_directory: '%h'
+```
+
 ### sshd_force_command: ''
+Forces the execution of the command specified by ForceCommand, ignoring any command supplied by the client and ~/.ssh/rc if present.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_force_command: "/usr/local/execute_task.sh"
+```
+
 ### sshd_allow_agent_forwarding: ''
 ### sshd_banner: ''
 ### sshd_xauth_location: ''
@@ -492,13 +807,10 @@ sshd_password_authentication: true
 ### sshd_match: {}
 
 
-
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+This role has no dependancies on other Ansible Roles.
 
 Example Playbook
 ----------------

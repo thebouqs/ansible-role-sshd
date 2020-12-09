@@ -41,7 +41,6 @@ sshd_ignore_rhosts: ''
 sshd_rhosts_rsa_authentication: ''
 sshd_authentication_methods: []
 sshd_password_authentication: ''
-sshd_pam_authentication: ''
 sshd_challenge_response_authentication: ''
 sshd_permit_empty_passwords: ''
 sshd_kerberos_authentication: ''

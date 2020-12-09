@@ -95,9 +95,6 @@ AuthenticationMethods {{ sshd_authentication_methods | join(',') }}
 {% if sshd_password_authentication is defined and sshd_password_authentication != ''  %}
 PasswordAuthentication {{ sub_bool(sshd_password_authentication) }}
 {% endif %}
-{% if sshd_pam_authentication_via_kbd_int is defined and sshd_pam_authentication_via_kbd_int != '' %}
-PAMAuthenticationViaKBDInt {{ sub_bool(sshd_pam_authentication_via_kbd_int) }}
-{% endif %}
 {% if sshd_challenge_response_authentication is defined and sshd_challenge_response_authentication != '' %}
 ChallengeResponseAuthentication {{ sub_bool(sshd_challenge_response_authentication) }}
 {% endif %}
