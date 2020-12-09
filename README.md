@@ -1,3 +1,4 @@
+![.github/workflows/ci.yml](https://github.com/thebouqs/ansible-role-sshd/workflows/.github/workflows/ci.yml/badge.svg)
 sshd
 =========
 

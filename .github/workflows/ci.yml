@@ -21,20 +21,20 @@ jobs:
           - scenario: debian_buster
           - scenario: ubuntu_bionic
           - scenario: amazon_linux_2
-      step:
-        - name: "Clone Repo"
-          uses: actions/checkout@v2
-          with:
-            path: 'ansible-role-sshd'
-        - name: "Setup Python 3"
-          uses: actions/setup-python@v2
-          with:
-            pyhton-version: '3.x'
-        - name: "Install Testing Tools"
-          run: pip3 install --upgrade pip3 setuptools && pip3 install wheel && pip3 install -r requirements-test.txt
-        - name: "Run Tests"
-          run: molecule test -s ${{ matrix.scenario }}
-          env:
-            PY_COLORS: '1'
-            ANSIBLE_FORCE_COLOR: '1'
+    step:
+      - name: "Clone Repo"
+        uses: actions/checkout@v2
+        with:
+          path: 'ansible-role-sshd'
+      - name: "Setup Python 3"
+        uses: actions/setup-python@v2
+        with:
+          pyhton-version: '3.x'
+      - name: "Install Testing Tools"
+        run: pip3 install --upgrade pip3 setuptools && pip3 install wheel && pip3 install -r requirements-test.txt
+      - name: "Run Tests"
+        run: molecule test -s ${{ matrix.scenario }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
 
