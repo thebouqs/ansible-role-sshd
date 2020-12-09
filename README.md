@@ -15,7 +15,7 @@ Role Variables
 **NOTE: All defaults shown before are for the role. The SSH Server has defaults that are used for any setting not set explicitly by the user*.*
 
 ### sshd_service_name
-This is the name of the serivce to manage (ie sshd.service), it distribution specifc though **most** use sshd.service now.
+This is the name of the serivce to manage (ie sshd.service), it distribution specifc though **most** use sshd.service.
 
 **default**: '' Set to distribution specific value by default
 
@@ -651,7 +651,7 @@ sshd_tcp_keep_alive: true
 ```
 
 ### sshd_use_privilege_separation
-Specifies whether the SSH Server separates privileges by creating an unprivileged child process to deal with incoming network traffic. Valid options are 
+Specifies whether the SSH Server separates privileges by creating an unprivileged child process to deal with incoming network traffic. Valid options are
 yes (true), no (false), sandbox.
 
 ***Note this option is deprecated in newer releases of OpenSSH and defaults to enabled***
@@ -777,7 +777,7 @@ Specifies the pathname of a directory to chroot (change root) to after authentic
 sshd_chroot_directory: '%h'
 ```
 
-### sshd_force_command: ''
+### sshd_force_command
 Forces the execution of the command specified by ForceCommand, ignoring any command supplied by the client and ~/.ssh/rc if present.
 
 **default**: `''`
@@ -789,23 +789,241 @@ Forces the execution of the command specified by ForceCommand, ignoring any comm
 sshd_force_command: "/usr/local/execute_task.sh"
 ```
 
-### sshd_allow_agent_forwarding: ''
-### sshd_banner: ''
-### sshd_xauth_location: ''
-### sshd_ciphers: []
-### sshd_kex_algorithms: []
-### sshd_macs: []
-### sshd_deny_users: []
-### sshd_deny_groups: []
-### sshd_allow_users: []
-### sshd_allow_groups: []
-### sshd_revoked_keys: ''
-### sshd_host_certificate: []
-### sshd_trusted_user_ca_keys: []
-### sshd_authorized_principals_file: ''
-### sshd_subsystem: {}
-### sshd_match: {}
+### sshd_allow_agent_forwarding
+Specifies whether ssh-agent forwarding is permitted.
 
+**default**: `''`
+
+**type**: boolean
+
+**example**:
+```yaml
+sshd_allow_agent_forwarding: true
+```
+
+### sshd_banner
+The contents of the specified file are sent to the remote user
+before authentication is allowed.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_banner: "This is a secure system, unauthorized access is prohibited"
+```
+
+### sshd_xauth_location
+Specifies the full pathname of the xauth program, or none to
+not use one.
+
+**default**: `''`
+
+**type**: string
+
+**example**:
+```yaml
+sshd_xauth_location: '/usr/bin/xauth'
+```
+
+### sshd_ciphers
+Specifies the ciphers allowed.
+
+**default**: '[]'
+
+**type**: list
+
+**example**:
+```yaml
+sshd_ciphers:
+  - 'chacha20-poly1305@openssh.com'
+  - 'aes256-gcm@openssh.com'
+  - 'aes128-gcm@openssh.com'
+  - 'aes256-ctr'
+  - 'aes192-ctr'
+  - 'aes128-ctr'
+```
+
+### sshd_kex_algorithms
+Specifies the available KEX (Key Exchange) algorithms.
+
+**default**: `''`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_kex_algorithms:
+  - 'curve25519-sha256@libssh.org'
+  - 'ecdh-sha2-nistp521'
+  - 'ecdh-sha2-nistp384'
+  - 'ecdh-sha2-nistp256'
+  - 'diffie-hellman-group-exchange-sha256'
+```
+
+### sshd_macs
+Specifies the available MAC (message authentication code) algorithms.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_macs:
+  - 'hmac-sha2-512-etm@openssh.com'
+  - 'hmac-sha2-256-etm@openssh.com'
+  - 'umac-128-etm@openssh.com'
+  - 'hmac-sha2-512'
+  - 'hmac-sha2-256'
+  - 'umac-128@openssh.com'
+```
+### sshd_deny_users
+Specifies a list of user name patterns to explicitly deny login.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_deny_users:
+  - 'bad_dude'
+  - 'cron'
+  - 'other_bad_dude'
+```
+
+### sshd_deny_groups
+Specifies a list of groups to disallow login for users whose group membership matches.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_deny_groups:
+  - 'lions'
+  - 'tigers'
+  - 'bears'
+  - 'oh_my'
+```
+
+### sshd_allow_users 
+A list of user name patterns that are explicitly and **only** allowed to login.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_allow_users:
+  - 'dorthy'
+  - 'cowardly_lion'
+  - 'scarecrow'
+  - 'tin_man'
+```
+
+### sshd_allow_groups
+A list of groups that whose members are explicitly and **only** are allowed to login.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_allow_groups:
+  - 'avengers'
+  - 'gotg'
+  - 'x-factor'
+  - 'justice_league'
+```
+
+### sshd_revoked_keys
+Specifies revoked public keys file, or none to not use one.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_revoked_keys:
+  - '/etc/ssh/key_revocation_list'
+```
+
+### sshd_host_certificate
+Specifies a file containing a public host certificate.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_host_certificate:
+  - '/etc/ssh/sshd_pub.pem'
+```
+
+### sshd_trusted_user_ca_keys
+Specifies a file containing public keys of certificate authorities that are trusted to sign user certificates for authentica‐
+tion, or none to not use one.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_trusted_user_ca_keys:
+  - '/etc/ssh/trusted_ca.pem'
+```
+
+### sshd_authorized_principals_file
+Specifies a file that lists principal names that are accepted for certificate authentication.
+
+**default**: `[]`
+
+**type**: list
+
+**example**:
+```yaml
+sshd_authorized_principals_file:
+  - '/etc/ssh/authorzied_principals'
+```
+
+### sshd_subsystem
+Configures an external subsystem (e.g. file transfer daemon).
+
+**default**: `{}`
+
+**type**: dictionary
+
+**example**:
+```yaml
+sshd_subsystem:
+  sftp: '/usr/lib/openssh/sftp-server'
+```
+
+### sshd_match: {}
+Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those
+set in the global section of the config file, until either another Match line or the end of the file.  If a keyword appears in multiple Match
+blocks that are satisfied, only the first instance of the keyword is applied.
+
+**default**: `{}`
+
+**type**: dictionary
+
+**example**:
+```yaml
+sshd_match:
+  'User bastion':
+    - 'PermitTTY no'
+    - 'MaxSessions 0'
+```
 
 Dependencies
 ------------
@@ -817,10 +1035,34 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables
 passed in as parameters) is always nice for users too:
-
+```yaml
     - hosts: servers
-      roles:
-         - { role: sshd, x: 42 }
+      tasks:
+        - include_role:
+            name: sshd
+```
+
+Development
+-----------
+This Ansible Role uses the [Molecule test-framework](https://molecule.readthedocs.io/en/stable/). 
+It is highly recommended that you use setup a python virtual environment for this tool and its dependancies.
+
+### Setting up Devleopment Environment
+```shell
+python3 -m venv molecule3
+
+source molecule3/bin/activate
+
+pip3 install --upgrade pip setuptools
+pip3 install wheel
+cd ansible-role-sshd
+pip3 install -r requirements-test.txt
+```
+
+### Testing Default Scenario
+```shell
+molecule test
+```
 
 License
 -------
@@ -830,5 +1072,5 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+[devops@thebouqs.com](mailto:devops@thebouqs.com)
+
