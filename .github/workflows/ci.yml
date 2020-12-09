@@ -30,7 +30,7 @@ jobs:
         with:
           channel_id: C3JMU73ME # devops-events
           status: STARTING
-          color: warning
+          color: good
       - name: "Clone Repo"
         uses: actions/checkout@v2
         with:
@@ -41,6 +41,16 @@ jobs:
           python-version: '3.x'
       - name: "Install Testing Tools"
         run: pip3 install --upgrade pip setuptools && pip3 install wheel && pip3 install -r requirements-test.txt
+      - name: "Notify Slack Running"
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_GITHUB_ACTIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel_id: C3JMU73ME # devops-events
+          status: RUNNING
+          color: warning
       - name: "Run Tests"
         run: molecule test -s ${{ matrix.scenario }}
         env:
