@@ -1,0 +1,8 @@
+---
+
+_sshd_host_key:
+  - '/etc/ssh/ssh_host_rsa_key'
+  - '/etc/ssh/ssh_host_ecdsa_key'
+  - '/etc/ssh/ssh_host_ed25519_key'
+
+_sshd_authorized_keys_file: '.ssh/authorized_keys'

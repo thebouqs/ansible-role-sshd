@@ -1,0 +1,55 @@
+---
+
+- name: "Set sshd_package_state to latest"
+  set_fact:
+    sshd_package_state: "{{ sshd_package_version }}"
+  when:
+    sshd_package_version == 'latest'
+
+- name: "Set sshd_package_name to include version"
+  set_fact:
+    sshd_package_name: "{{ sshd_package_name }}={{ sshd_package_version }}"
+  when:
+    sshd_package_version != 'latest'
+
+- name: "Set Default for: sshd_syslog_facility"
+  set_fact:
+    sshd_syslog_facility: "{{ _sshd_syslog_facility }}"
+  when:
+    - sshd_syslog_facility | length == 0
+
+- name: "Set Default for: sshd_challenge_response_authentication"
+  set_fact:
+    sshd_challenge_response_authentication: "{{ _sshd_challenge_response_authentication }}"
+  when:
+    - sshd_challenge_response_authentication | length == 0
+
+- name: "Set Default for: sshd_use_pam"
+  set_fact:
+    sshd_use_pam: "{{ _sshd_use_pam }}"
+  when:
+    - sshd_use_pam | length == 0
+
+- name: "Set Default for: sshd_x11_forwarding"
+  set_fact:
+    sshd_x11_forwarding: "{{ _sshd_x11_forwarding }}"
+  when:
+    - sshd_x11_forwarding | length == 0
+
+- name: "Set Default for: sshd_print_motd"
+  set_fact:
+    sshd_print_motd: "{{ _sshd_print_motd }}"
+  when:
+    - sshd_print_motd | length == 0
+
+- name: "Set Default for: sshd_accept_env"
+  set_fact:
+    sshd_accept_env: "{{ _sshd_accept_env }}"
+  when:
+    - sshd_accept_env | length == 0
+
+- name: "Set Default for: sshd_subsystem"
+  set_fact:
+    sshd_subsystem: "{{ _sshd_subsystem }}"
+  when:
+    - sshd_subsystem | length == 0

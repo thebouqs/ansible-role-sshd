@@ -1,0 +1,238 @@
+{{ ansible_managed | comment }}
+{% macro sub_bool(value) -%}
+{%- if value == True  -%}
+{%- set value = 'yes' -%}
+{%- elif value == False -%}
+{%- set value = 'no' -%}
+{%- endif -%}
+{{ value }}
+{%- endmacro %}
+{% if sshd_ports %}
+{% for port in sshd_ports %}
+Port {{ port }}
+{% endfor %}
+{% endif %}
+{% if sshd_proto %}
+Protocol {{ sshd_proto }}
+{% else %}
+Protocol 2
+{% endif %}
+{% if sshd_address_family %}
+AddressFamily {{ sshd_address_family }}
+{% endif %}
+{% if sshd_listen_address %}
+{% for addr in sshd_listen_address %}
+ListenAddress {{ addr }}
+{% endfor %}
+{% endif %}
+{% if sshd_host_key %}
+{% for key in sshd_host_key %}
+HostKey {{ key }}
+{% endfor %}
+{% else %}
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+{% endif %}
+{% if sshd_key_regeneration_interval %}
+KeyRegenerationInterval {{ sshd_key_regeneration_interval }}
+{% endif %}
+{% if sshd_server_key_bits %}
+ServerKeyBits {{ sshd_server_key_bits }}
+{% endif %}
+{% if sshd_syslog_facility %}
+SyslogFacility {{ sshd_syslog_facility }}
+{% endif %}
+{% if sshd_log_level %}
+LogLevel {{ sshd_log_level }}
+{% endif %}
+{% if sshd_login_grace_time %}
+LoginGraceTime {{ sshd_login_grace_time }}
+{% endif %}
+{% if sshd_permit_root_login is defined and sshd_permit_root_login != '' %}
+PermitRootLogin {{ sub_bool(sshd_permit_root_login) }}
+{% endif %}
+{% if sshd_strict_modes is defined and sshd_strict_modes != '' %}
+StrictModes {{ sub_bool(sshd_strict_modes) }}
+{% endif %}
+{% if sshd_max_auth_tries %}
+MaxAuthTries {{ sshd_max_auth_tries }}
+{% endif %}
+{% if sshd_rsa_authentication is defined and sshd_rsa_authentication != '' %}
+RSAAuthentication {{ sub_bool(sshd_rsa_authentication) }}
+{% endif %}
+{% if sshd_pubkey_accepted_key_types %}
+PubkeyAcceptedKeyTypes {{ sshd_pubkey_accepted_key_type | join(',') }}
+{% endif %}
+{% if sshd_pubkey_authentication is defined and sshd_pubkey_authentication != '' %}
+PubkeyAuthentication {{ sub_bool(sshd_pubkey_authentication) }}
+{% endif %}
+{% if sshd_authorized_keys_file %}
+AuthorizedKeysFile {{ sshd_authorized_keys_file }}
+{% endif %}
+{% if sshd_authorized_keys_command %}
+AuthorizedKeysCommand {{ sshd_authorized_keys_command }}
+{% endif %}
+{% if sshd_authorized_keys_command_user %}
+AuthorizedKeysCommandUser {{ sshd_authorized_keys_command_user }}
+{% endif %}
+{% if sshd_host_based_authentication %}
+HostbasedAuthentication {{ sshd_host_based_authentication }}
+{% endif %}
+{% if sshd_ignore_user_known_hosts is defined and sshd_ignore_user_known_hosts != '' %}
+IgnoreUserKnownHosts {{ sub_bool(sshd_ignore_user_known_hosts) }}
+{% endif %}
+{% if sshd_ignore_rhosts is defined and sshd_ignore_rhosts != '' %}
+IgnoreRhosts {{ sub_bool(sshd_ignore_rhosts) }}
+{% endif %}
+{% if sshd_rhosts_rsa_authentication is defined and sshd_rhosts_rsa_authentication != '' %}
+RhostsRSAAuthentication {{ sub_bool(sshd_rhosts_rsa_authentication) }}
+{% endif %}
+{% if sshd_authentication_methods %}
+AuthenticationMethods {{ sshd_authentication_methods | join(',') }}
+{% endif %}
+{% if sshd_password_authentication is defined and sshd_password_authentication != ''  %}
+PasswordAuthentication {{ sub_bool(sshd_password_authentication) }}
+{% endif %}
+{% if sshd_challenge_response_authentication is defined and sshd_challenge_response_authentication != '' %}
+ChallengeResponseAuthentication {{ sub_bool(sshd_challenge_response_authentication) }}
+{% endif %}
+{% if sshd_permit_empty_passwords is defined and sshd_permit_empty_passwords != '' %}
+PermitEmptyPasswords {{ sub_bool(sshd_permit_empty_passwords) }}
+{% endif %}
+{% if sshd_kerberos_authentication is defined and sshd_kerberos_authentication != '' %}
+KerberosAuthentication {{ sub_bool(sshd_kerberos_authentication) }}
+{% endif %}
+{% if sshd_kerberos_or_local_passwd is defined and sshd_kerberos_or_local_passwd != '' %}
+KerberosOrLocalPasswd {{ sub_bool(sshd_kerberos_or_local_passwd) }}
+{% endif %}
+{% if sshd_kerberos_ticket_cleanup is defined and sshd_kerberos_ticket_cleanup != '' %}
+KerberosTicketCleanup {{ sub_bool(sshd_kerberos_ticket_cleanup) }}
+{% endif %}
+{% if sshd_kerberos_get_afs_token is defined and sshd_kerberos_get_afs_token != '' %}
+KerberosGetAFSToken {{ sub_bool(sshd_kerberos_get_afs_token) }}
+{% endif %}
+{% if sshd_gssapi_authentication is defined and sshd_gssapi_authentication != '' %}
+GSSAPIAuthentication {{ sub_bool(sshd_gssapi_authentication) }}
+{% endif %}
+{% if sshd_gssapi_cleanup_credentials is defined and sshd_gssapi_cleanup_credentials != '' %}
+GSSAPICleanupCredentials {{ sub_bool(sshd_gssapi_cleanup_credentials) }}
+{% endif %}
+{% if sshd_use_pam is defined and sshd_use_pam != '' %}
+UsePAM {{ sub_bool(sshd_use_pam) }}
+{% endif %}
+{% if sshd_accept_env %}
+AcceptEnv {{ sshd_accept_env | join(' ') }}
+{% endif %}
+{% if sshd_allow_tcp_forwarding is defined and sshd_allow_tcp_forwarding != '' %}
+AllowTCPForwarding {{ sub_bool(sshd_allow_tcp_forwarding) }}
+{% endif %}
+{% if sshd_x11_forwarding %}
+X11Forwarding {{ sub_bool(sshd_x11_forwarding) }}
+{% endif %}
+{% if sshd_x11_use_localhost is defined and sshd_x11_use_localhost != '' %}
+X11UseLocalhost {{ sub_bool(sshd_x11_use_localhost) }}
+{% endif %}
+{% if sshd_x11_display_offset %}
+X11DisplayOffset {{ sshd_x11_display_offset }}
+{% endif %}
+{% if sshd_print_motd is defined and sshd_print_motd != '' %}
+PrintMotd {{ sub_bool(sshd_print_motd) }}
+{% endif %}
+{% if sshd_print_last_log is defined and sshd_print_last_log != '' %}
+PrintLastLog {{ sub_bool(sshd_print_last_log) }}
+{% endif %}
+{% if sshd_tcp_keep_alive is defined and sshd_tcp_keep_alive != '' %}
+TCPKeepAlive {{ sub_bool(sshd_tcp_keep_alive) }}
+{% endif %}
+{% if sshd_use_privilege_separation is defined and sshd_use_privilege_separation != '' %}
+UsePrivilegeSeparation {{ sub_bool(sshd_use_privilege_separation) }}
+{% endif %}
+{% if sshd_permit_user_environment is defined and sshd_permit_user_environment != '' %}
+PermitUserEnvironment {{ sub_bool(sshd_permit_user_environment) }}
+{% endif %}
+{% if sshd_compression is defined and sshd_compression != '' %}
+Compression {{ sub_bool(sshd_compression) }}
+{% endif %}
+{% if sshd_client_alive_interval %}
+ClientAliveInterval {{ sshd_client_alive_interval }}
+{% endif %}
+{% if sshd_client_alive_count_max %}
+ClientAliveCountMax {{ sshd_client_alive_count_max }}
+{% endif %}
+{% if sshd_use_dns is defined and sshd_use_dns != '' %}
+UseDNS {{ sub_bool(sshd_use_dns) }}
+{% endif %}
+{% if sshd_max_startups %}
+MaxStartups {{ sshd_max_startups }}
+{% endif %}
+{% if sshd_max_sessions %}
+MaxSessions {{ sshd_max_sessions }}
+{% endif %}
+{% if sshd_permit_tunnel is defined and sshd_permit_tunnel != '' %}
+PermitTunnel {{ sub_bool(sshd_permit_tunnel) }}
+{% endif %}
+{% if sshd_chroot_directory %}
+ChrootDirectory {{ sshd_chroot_directory }}
+{% endif %}
+{% if sshd_force_command %}
+ForceCommand {{ sshd_force_command }}
+{% endif %}
+{% if sshd_allow_agent_forwarding is defined and sshd_allow_agent_forwarding != '' %}
+AllowAgentForwarding {{ sub_bool(sshd_allow_agent_forwarding) }}
+{% endif %}
+{% if sshd_banner %}
+Banner {{ sshd_banner }}
+{% endif %}
+{% if sshd_xauth_location %}
+XAuthLocation {{ sshd_xauth_location }}
+{% endif %}
+{% if sshd_ciphers %}
+Ciphers {{ sshd_ciphers | join(',') }}
+{% endif %}
+{% if sshd_kex_algorithms %}
+KexAlgorithms {{ sshd_kex_algorithms | join(',') }}
+{% endif %}
+{% if sshd_macs %}
+MACs {{ sshd_macs | join(',') }}
+{% endif %}
+{% if sshd_deny_users %}
+DenyUsers {{ sshd_deny_users | join(' ') }}
+{% endif %}
+{% if sshd_deny_groups %}
+DenyGroups {{ sshd_deny_groups | join(' ') }}
+{% endif %}
+{% if sshd_allow_users %}
+AllowUsers {{ sshd_allow_users | join(' ') }}
+{% endif %}
+{% if sshd_allow_groups %}
+AllowGroups {{ sshd_allow_groups | join(' ') }}
+{% endif %}
+{% if sshd_revoked_keys %}
+RevokedKeys {{ sshd_revoked_keys }}
+{% endif %}
+{% if sshd_host_certificate %}
+{% for cert in sshd_host_certificate %}
+HostCertificate {{ cert }}
+{% endfor %}
+{% endif %}
+{% if sshd_trusted_user_ca_keys %}
+TrustedUserCAKeys {{ sshd_trusted_user_ca_keys }}
+{% endif %}
+{% if sshd_authorized_principals_file %}
+AuthorizedPrincipalsFile {{ sshd_authorized_principals_files }}
+{% endif %}
+{% if sshd_subsystem %}
+{% for subsys,setting in sshd_subsystem.items() %}
+Subsystem  {{ subsys }} {{ setting }}
+{% endfor %}
+{% endif %}
+{% if sshd_match %}
+{% for match,settings in sshd_match.items() %}
+Match {{ match }}
+{% for key,value in settings.items() %}
+  {{ key }} {{ sub_bool(value) }}
+{% endfor %}
+{% endfor %}
+{% endif %}

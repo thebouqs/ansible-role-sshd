@@ -1,0 +1,8 @@
+---
+
+- name: "Ensure {{ sshd_package_name }} is {{ sshd_package_state }}"
+  yum:
+    name: "{{ sshd_package_name }}"
+    state: "{{ sshd_package_state }}"
+    update_cache: true
+  become: true

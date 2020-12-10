@@ -1,0 +1,87 @@
+---
+# defaults file for sshd
+#
+#
+sshd_service_name: ''
+sshd_service_enable: true
+sshd_service_ensure: 'started'
+
+sshd_package_version: 'latest'
+sshd_package_name: ''
+
+sshd_config_file_path: '/etc/ssh/sshd_config'
+sshd_config_file_owner: 'root'
+sshd_config_file_group: 'root'
+sshd_config_file_mode: ''
+
+
+sshd_ports:
+  - 22
+sshd_proto: '2'
+sshd_address_family: ''
+sshd_listen_address: []
+sshd_host_key: []
+sshd_key_regeneration_interval: ''
+sshd_server_key_bits: ''
+sshd_syslog_facility: ''
+sshd_log_level: 'INFO'
+sshd_login_grace_time: ''
+sshd_permit_root_login: ''
+sshd_strict_modes: ''
+sshd_max_auth_tries: ''
+sshd_rsa_authentication: ''
+sshd_pubkey_accepted_key_types: []
+sshd_pubkey_authentication: ''
+sshd_authorized_keys_file: ''
+sshd_authorized_keys_command: ''
+sshd_authorized_keys_command_user: ''
+sshd_host_based_authentication: ''
+sshd_ignore_user_known_hosts: ''
+sshd_ignore_rhosts: ''
+sshd_rhosts_rsa_authentication: ''
+sshd_authentication_methods: []
+sshd_password_authentication: ''
+sshd_challenge_response_authentication: ''
+sshd_permit_empty_passwords: ''
+sshd_kerberos_authentication: ''
+sshd_kerberos_or_local_passwd: ''
+sshd_kerberos_ticket_cleanup: ''
+sshd_kerberos_get_afs_token: ''
+sshd_gssapi_authentication: ''
+sshd_gssapi_cleanup_credentials: ''
+sshd_use_pam: ''
+sshd_accept_env: []
+sshd_allow_tcp_forwarding: ''
+sshd_x11_forwarding: ''
+sshd_x11_use_localhost: ''
+sshd_x11_display_offset: ''
+sshd_print_motd: ''
+sshd_print_last_log: ''
+sshd_tcp_keep_alive: ''
+sshd_use_privilege_separation: ''
+sshd_permit_user_environment: ''
+sshd_compression: ''
+sshd_client_alive_interval: ''
+sshd_client_alive_count_max: ''
+sshd_use_dns: ''
+sshd_max_startups: ''
+sshd_max_sessions: ''
+sshd_permit_tunnel: ''
+sshd_chroot_directory: ''
+sshd_force_command: ''
+sshd_allow_agent_forwarding: ''
+sshd_banner: ''
+sshd_xauth_location: ''
+sshd_ciphers: []
+sshd_kex_algorithms: []
+sshd_macs: []
+sshd_deny_users: []
+sshd_deny_groups: []
+sshd_allow_users: []
+sshd_allow_groups: []
+sshd_revoked_keys: ''
+sshd_host_certificate: []
+sshd_trusted_user_ca_keys: []
+sshd_authorized_principals_file: ''
+sshd_subsystem: {}
+sshd_match: {}

@@ -1,0 +1,7 @@
+---
+
+- name: "Set Default for: sshd_host_key"
+  set_fact:
+    sshd_host_key: "{{ _sshd_host_key }}"
+  when:
+    - sshd_host_key | length == 0

@@ -1,0 +1,13 @@
+---
+
+- name: "Set Default for: sshd_host_key"
+  set_fact:
+    sshd_host_key: "{{ sshd_host_key }}"
+  when:
+    - sshd_host_key | length == 0
+
+- name: "Set Default for: sshd_authorized_keys_file"
+  set_fact:
+    sshd_authorized_keys_file: "{{ _sshd_authorized_keys_file }}"
+  when:
+    - sshd_authorized_keys_file | length == 0

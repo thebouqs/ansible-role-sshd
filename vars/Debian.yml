@@ -1,0 +1,16 @@
+---
+_sshd_package_name: 'openssh-server'
+_sshd_package_version: 'latest'
+_sshd_service_name: 'sshd.service'
+_sshd_config_file_mode: 'u=rw,go=r'
+
+_sshd_syslog_facility: 'AUTH'
+_sshd_challenge_response_authentication: false
+_sshd_use_pam: true
+_sshd_x11_forwarding: true
+_sshd_print_motd: false
+_sshd_accept_env:
+  - 'LANG'
+  - 'LC_*'
+_sshd_subsystem:
+  sftp: '/usr/lib/openssh/sftp-server'

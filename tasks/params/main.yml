@@ -1,0 +1,23 @@
+---
+
+- name: "Set Default for: sshd_package_name"
+  set_fact:
+    sshd_package_name: "{{ _sshd_package_name }}"
+  when:
+    - sshd_package_name | length == 0
+
+- name: "Set Default for: sshd_service_name"
+  set_fact:
+    sshd_service_name: "{{ _sshd_service_name }}"
+  when:
+    - sshd_service_name | length == 0
+
+- name: "Set Default for: sshd_config_file_mode"
+  set_fact:
+    sshd_config_file_mode: "{{ _sshd_config_file_mode }}"
+  when:
+    - sshd_config_file_mode  | length == 0
+
+- include_tasks: "params/{{ ansible_os_family }}.yml"
+- include_tasks: "params/{{ ansible_distribution }}.yml"
+  when: ansible_distribution != ansible_os_family
