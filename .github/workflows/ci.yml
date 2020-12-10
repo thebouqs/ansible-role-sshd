@@ -21,7 +21,6 @@ jobs:
           - scenario: debian_buster
           - scenario: ubuntu_bionic
           - scenario: amazon_linux_2
-          - scenario: fail_train
     steps:
       - name: "Notfiy Slack Start"
         id: slack
