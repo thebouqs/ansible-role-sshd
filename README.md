@@ -1,4 +1,5 @@
-![.github/workflows/ci.yml](https://github.com/thebouqs/ansible-role-sshd/workflows/.github/workflows/ci.yml/badge.svg)
+![Lint, and Functional Testing](https://github.com/thebouqs/ansible-role-sshd/workflows/Lint,%20and%20Functional%20Testing/badge.svg)
+
 sshd
 =========
 
