@@ -3,11 +3,12 @@ name: "Lint, and Functional Testing"
 on:
   pull_request:
   push:
-    branches:
-      - main
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+    branches:
+      - main
+
 
 defaults:
   run:
