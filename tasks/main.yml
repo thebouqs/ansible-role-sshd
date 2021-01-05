@@ -1,7 +1,8 @@
 ---
 # tasks file for sshd
 #
-- name: "Include Distribution Family Specific Variables: {{ ansible_os_family }}"
+- name: >-
+    "Include Distribution Family Specific Variables: {{ ansible_os_family }}"
   include_vars: "vars/{{ ansible_os_family }}.yml"
 
 - name: "Include Distribution Specific Variables: {{ ansible_distribution }}"
