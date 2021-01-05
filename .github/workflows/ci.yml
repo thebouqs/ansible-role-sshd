@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'sshd'
+    working-directory: 'bouqs.sshd'
 
 jobs:
   molecule:
@@ -18,9 +18,6 @@ jobs:
       matrix:
         include:
           - scenario: default
-          - scenario: debian_buster
-          - scenario: ubuntu_bionic
-          - scenario: amazon_linux_2
     steps:
       - name: "Notfiy Slack Start"
         id: slack
@@ -34,7 +31,7 @@ jobs:
       - name: "Clone Repo"
         uses: actions/checkout@v2
         with:
-          path: 'sshd'
+          path: 'bouqs.sshd'
       - name: "Setup Python 3"
         uses: actions/setup-python@v2
         with:
