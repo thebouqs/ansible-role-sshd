@@ -22,37 +22,37 @@
   set_fact:
     sshd_password_authentication: "{{ _sshd_password_authentication }}"
   when:
-    - sshd_password_authentication | length == 0
+    - sshd_password_authentication is none
 
 - name: "Set Default for: sshd_challenge_response_authentication"
   set_fact:
     sshd_challenge_response_authentication: "{{ _sshd_challenge_response_authentication }}"
   when:
-    - sshd_challenge_response_authentication | length == 0
+    - sshd_challenge_response_authentication is none
 
 - name: "Set Default for: sshd_gssapi_authentication"
   set_fact:
     sshd_gssapi_authentication: "{{ _sshd_gssapi_authentication }}"
   when:
-    - sshd_gssapi_authentication | length == 0
+    - sshd_gssapi_authentication is none
 
 - name: "Set Default for: sshd_gssapi_cleanup_credentials"
   set_fact:
     sshd_gssapi_cleanup_credentials: "{{ _sshd_gssapi_cleanup_credentials }}"
   when:
-    - sshd_gssapi_cleanup_credentials | length == 0
+    - sshd_gssapi_cleanup_credentials is none
 
 - name: "Set Default for: sshd_use_pam"
   set_fact:
     sshd_use_pam: "{{ _sshd_use_pam }}"
   when:
-    - sshd_use_pam | length == 0
+    - sshd_use_pam is none
 
 - name: "Set Default for: sshd_x11_forwarding"
   set_fact:
     sshd_x11_forwarding: "{{ _sshd_x11_forwarding }}"
   when:
-    - sshd_x11_forwarding | length == 0
+    - sshd_x11_forwarding is none
 
 - name: "Set Default for: sshd_accept_env"
   set_fact:

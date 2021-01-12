@@ -22,25 +22,25 @@
   set_fact:
     sshd_challenge_response_authentication: "{{ _sshd_challenge_response_authentication }}"
   when:
-    - sshd_challenge_response_authentication | length == 0
+    - sshd_challenge_response_authentication is none
 
 - name: "Set Default for: sshd_use_pam"
   set_fact:
     sshd_use_pam: "{{ _sshd_use_pam }}"
   when:
-    - sshd_use_pam | length == 0
+    - sshd_use_pam is none
 
 - name: "Set Default for: sshd_x11_forwarding"
   set_fact:
     sshd_x11_forwarding: "{{ _sshd_x11_forwarding }}"
   when:
-    - sshd_x11_forwarding | length == 0
+    - sshd_x11_forwarding is none
 
 - name: "Set Default for: sshd_print_motd"
   set_fact:
     sshd_print_motd: "{{ _sshd_print_motd }}"
   when:
-    - sshd_print_motd | length == 0
+    - sshd_print_motd is none
 
 - name: "Set Default for: sshd_accept_env"
   set_fact:
