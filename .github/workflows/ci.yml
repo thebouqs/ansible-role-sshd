@@ -18,7 +18,6 @@ jobs:
   molecule:
     runs-on: [self-hosted, linux, x64]
     name: "Molecule Testing"
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
