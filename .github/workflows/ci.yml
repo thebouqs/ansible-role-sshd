@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   molecule:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: ubuntu-latest
     name: "Molecule Testing"
     strategy:
       matrix:
