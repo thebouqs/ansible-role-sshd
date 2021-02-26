@@ -1,6 +1,5 @@
 ---
 name: "Lint, and Functional Testing"
-runs-on: [self-hosted, linux, x64]
 on:
   pull_request:
   push:
@@ -17,6 +16,7 @@ defaults:
 
 jobs:
   molecule:
+    runs-on: [self-hosted, linux, x64]
     name: "Molecule Testing"
     runs-on: ubuntu-latest
     strategy:
